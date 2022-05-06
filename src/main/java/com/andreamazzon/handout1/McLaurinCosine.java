@@ -42,13 +42,10 @@ public class McLaurinCosine {
 			macLaurinApproximation += sign * powerOfX / factorial;
 
 			// not such an elegant way to look at what's happening: debug by Eclipse!
-			System.out.println("Power = " + Math.pow(x, 2 * i));
-			System.out.println("Factorial = " + factorial);
-
-			// factorial *= (2 * i + 1);//factorial*(2(k-1)+1)=factorial*(2k-1)
-			// factorial *= (2 * i + 2);// factorial*(2k-1)*(2 * (k-1) +
-			// 2)=factorial*(2k-1)*(2*k)
-
+			//System.out.println("Power = " + Math.pow(x, 2 * i));
+			//System.out.println("Factorial = " + factorial);
+			//System.out.println();
+			
 			factorial *= (2 * i + 1) * (2 * i + 2);// factorial*(2(k-1)+1)*(2 * (k-1) + 2)=factorial*(2k-1)*(2*k)
 
 			powerOfX *= x * x;
@@ -101,15 +98,15 @@ public class McLaurinCosine {
 	public static void main(String[] args) {
 
 		double angle = 3;
-		int maxOrder = 15;
-		// macLaurinCosineSeriesConvergence(angle, maxOrder);
+		int maxOrder = 6;
+		macLaurinCosineSeriesConvergence(angle, maxOrder);
 
-		double approximatedValueForMaxOrder = macLaurinCosineSeries(angle, maxOrder);
+		//double approximatedValueForMaxOrder = macLaurinCosineSeries(angle, maxOrder);
 
-		System.out.println("_".repeat(79) + "\n");
+		//System.out.println("_".repeat(79) + "\n");
 
-		System.out.println("The cosine of " + " angle " + "computed with Java is " + Math.cos(angle));
-		System.out.println("The approximated value with order " + maxOrder + " is " + approximatedValueForMaxOrder);
+		//System.out.println("The cosine of " + " angle " + "computed with Java is " + Math.cos(angle));
+		//System.out.println("The approximated value with order " + maxOrder + " is " + approximatedValueForMaxOrder);
 
 	}
 
