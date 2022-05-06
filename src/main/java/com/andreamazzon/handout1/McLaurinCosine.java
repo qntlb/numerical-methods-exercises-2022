@@ -19,6 +19,44 @@ package com.andreamazzon.handout1;
  *
  */
 public class McLaurinCosine {
+//	/**
+//	 * It computes the Maclaurin series of the cosine in a point x, supposed to be
+//	 * in [0,pi).
+//	 *
+//	 * @param x the point where we want to compute the approximation. Note: it is
+//	 *          supposed to be in [0,pi).
+//	 * @param n the order of the approximation
+//	 * @return the value of the approximation
+//	 */
+//	public static double macLaurinCosineInZeroPi(double argument, int order) {
+//
+//		double macLaurinApproximation = 0.0; // initialization of the sum
+//
+//		double factorial = 1;// you can get negative numbers due to an overflow for large m
+//		double powerOfX = 1;
+//		int sign = 1;
+//
+//		for (int i = 0; i < (order + 1); i++) {
+//
+//			// Maclaurin formula
+//			macLaurinApproximation += sign * powerOfX / factorial;
+//
+//			// not such an elegant way to look at what's happening: debug by Eclipse!
+//			System.out.println("Power = " + Math.pow(argument, 2 * i));
+//			System.out.println("Factorial = " + factorial);
+//			System.out.println();
+//			
+//			factorial *= (2 * i + 1) * (2 * i + 2);// factorial*(2(k-1)+1)*(2 * (k-1) + 2)=factorial*(2k-1)*(2*k)
+//
+//			powerOfX *= argument * argument;
+//
+//			sign *= -1;
+//		}
+//		return macLaurinApproximation;
+//	}
+
+	
+	
 	/**
 	 * It computes the Maclaurin series of the cosine in a point x, supposed to be
 	 * in [0,pi).
@@ -28,33 +66,30 @@ public class McLaurinCosine {
 	 * @param n the order of the approximation
 	 * @return the value of the approximation
 	 */
-	public static double macLaurinCosineInZeroPi(double x, int n) {
+	public static double macLaurinCosineInZeroPi(double argument, int order) {
 
 		double macLaurinApproximation = 0.0; // initialization of the sum
 
-		int factorial = 1;// you can get negative numbers due to an overflow for large m
-		double powerOfX = 1;
+		double powerOfXDividedFactorial = 1;
 		int sign = 1;
 
-		for (int i = 0; i < (n + 1); i++) {
+		for (int i = 0; i < (order + 1); i++) {
 
 			// Maclaurin formula
-			macLaurinApproximation += sign * powerOfX / factorial;
+			macLaurinApproximation += sign * powerOfXDividedFactorial;
 
 			// not such an elegant way to look at what's happening: debug by Eclipse!
-			//System.out.println("Power = " + Math.pow(x, 2 * i));
-			//System.out.println("Factorial = " + factorial);
-			//System.out.println();
+			System.out.println("powerOfXDividedFactorial = " + powerOfXDividedFactorial);
+			System.out.println();
 			
-			factorial *= (2 * i + 1) * (2 * i + 2);// factorial*(2(k-1)+1)*(2 * (k-1) + 2)=factorial*(2k-1)*(2*k)
-
-			powerOfX *= x * x;
+			powerOfXDividedFactorial *= argument * argument / ((2 * i + 1) * (2 * i + 2));// factorial*(2(k-1)+1)*(2 * (k-1) + 2)=factorial*(2k-1)*(2*k)
 
 			sign *= -1;
 		}
 		return macLaurinApproximation;
 	}
 
+	
 	/**
 	 * It computes the Maclaurin series of the cosine in a point x.
 	 *
@@ -97,8 +132,8 @@ public class McLaurinCosine {
 
 	public static void main(String[] args) {
 
-		double angle = 3;
-		int maxOrder = 6;
+		double angle = 3000;
+		int maxOrder = 570;
 		macLaurinCosineSeriesConvergence(angle, maxOrder);
 
 		//double approximatedValueForMaxOrder = macLaurinCosineSeries(angle, maxOrder);

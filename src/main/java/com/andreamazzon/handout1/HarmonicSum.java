@@ -38,9 +38,7 @@ public class HarmonicSum {
 	 */
 	static double doubleHarmonicSumBackward(int n, boolean isFloat) {
 		double sum = 0; // double
-		if (isFloat) {
-			sum = (float) sum;
-		}
+		
 		for (int i = n; i > 0; i--) {
 			sum += (1.0 / i);
 		}
@@ -54,7 +52,7 @@ public class HarmonicSum {
 	 * @return the value of the sum, float
 	 */
 	static float floatHarmonicSumForward(int n) {
-		float sum = 0; // double
+		float sum = 0; // float
 		for (int i = 1; i < n + 1; i++) {
 			sum += (1.0 / i);
 		}
@@ -68,7 +66,7 @@ public class HarmonicSum {
 	 * @return the value of the sum, float
 	 */
 	static float floatHarmonicSumBackward(int n) {
-		float sum = 0; // double
+		float sum = 0; // float
 		for (int i = n; i > 0; i--) {
 			sum += (1.0 / i);
 		}
@@ -76,6 +74,7 @@ public class HarmonicSum {
 	}
 
 	public static void main(String[] args) {
+		
 		int harmonicSumOrder = 10000000;
 
 		System.out.println("The forward harmonic sum of order " + harmonicSumOrder + " in single precision is "

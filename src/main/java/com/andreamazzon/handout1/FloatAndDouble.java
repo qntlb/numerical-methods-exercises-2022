@@ -22,22 +22,22 @@ public class FloatAndDouble {
 	 */
 	public static EpsilonAndExponent computeBiggestEpsilon(double x, double x0) {
 		double absoluteDifference = Math.abs(x0 - x);// float if at least one of x and x0 is a float
-		double epsilon = 1.0;
-		int exponent = 0;
-		// computation of epsilon and of the exponent
-		while (absoluteDifference < epsilon) {// we stop as soon as epsilon <= |x-x0|
-			epsilon /= 2.0; // epsilon=epsilon/2
-			exponent++;
-		}
+//		double epsilon = 1.0;
+//		int exponent = 0;
+//		// computation of epsilon and of the exponent
+//		while (absoluteDifference < epsilon) {// we stop as soon as epsilon <= |x-x0|
+//			epsilon /= 2.0; // epsilon=epsilon/2
+//			exponent++;
+//		}
 // 		or:
 		/*
 		 * Math.getExponent(double d) returns the exponent e used to represent d. We
 		 * have diff = (1+c/2^p)2^e, with 0<=c<2^p, so 2^e <= |diff| < 2^(e+1).
 		 */
-//		int negativeExponent = Math.getExponent(absoluteDifference);
-//		double epsilon = Math.pow(2, negativeExponent);
-//		// n = -e
-//		int exponent = -negativeExponent;
+		int negativeExponent = Math.getExponent(absoluteDifference);
+		double epsilon = Math.pow(2, negativeExponent);
+		// n = -e
+		int exponent = -negativeExponent;
 		/*
 		 * We create this class because epsilon is a double and exponent int, and we
 		 * cannot have an array with different types. Two different ways to do this
@@ -57,6 +57,53 @@ public class FloatAndDouble {
 		return epsilonAndExponent;
 	}
 
+	
+	/**
+	 * Computes the biggest epsilon of the form epsilon = 2^(-n) such that
+	 * |x-x0|<2^(-n).
+	 *
+	 * @param x  double
+	 * @param x0 double
+	 * @return an object of the container class EpsilonAndExponent, where we have
+	 *         set the values of the biggest epsilon of the form epsilon = 2^(-n)
+	 *         such that |x-x0|<2^(-n), and the correspondent int n.
+	 */
+	public static double[] computeBiggestEpsilonWithArray(double x, double x0) {
+		double absoluteDifference = Math.abs(x0 - x);// float if at least one of x and x0 is a float
+//		double epsilon = 1.0;
+//		int exponent = 0;
+//		// computation of epsilon and of the exponent
+//		while (absoluteDifference < epsilon) {// we stop as soon as epsilon <= |x-x0|
+//			epsilon /= 2.0; // epsilon=epsilon/2
+//			exponent++;
+//		}
+// 		or:
+		/*
+		 * Math.getExponent(double d) returns the exponent e used to represent d. We
+		 * have diff = (1+c/2^p)2^e, with 0<=c<2^p, so 2^e <= |diff| < 2^(e+1).
+		 */
+		int negativeExponent = Math.getExponent(absoluteDifference);
+		double epsilon = Math.pow(2, negativeExponent);
+		// n = -e
+		int exponent = -negativeExponent;
+		/*
+		 * We create this class because epsilon is a double and exponent int, and we
+		 * cannot have an array with different types. Two different ways to do this
+		 * could be: 
+		 * - upcast exponent to double 
+		 * - create and return an ArrayList<Object>, for example:
+		 */
+		// ArrayList<Object> epsilonAndExponent = new ArrayList<Object>();
+		// epsilonAndExponent.add(epsilon);
+		// epsilonAndExponent.add(exponent);
+
+		double[] results = {epsilon, exponent};
+
+		return results;
+	}
+
+	
+	
 	public static void main(String[] args) {
 		double x0 = 3.0 * 0.1; // double
 		float xFloat = 0.3f; // float: you have to type f, otherwise it complains
@@ -67,7 +114,7 @@ public class FloatAndDouble {
 		double epsilonWithFloat = epsilonAndExponentWithFloat.getEpsilon();
 		int exponentWithFloat = epsilonAndExponentWithFloat.getExponent();
 
-		System.out.println("The smallest power n such that |xFloat-x0|>=2^(-n) is " + exponentWithFloat
+		System.out.println("The smallest power n such that |xFloat-x0|<=2^(-n) is " + exponentWithFloat
 				+ " , for which 2^(-n) equals " + epsilonWithFloat);
 
 		System.out.println();
