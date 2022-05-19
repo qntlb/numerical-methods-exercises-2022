@@ -30,7 +30,7 @@ public class MonteCarloExperimentsTest {
 		MonteCarloExperimentsWithBinomialModel monteCarloWithBinomial = new MonteCarloExperimentsWithBinomialModel(
 				initialValue, increaseIfUp, decreaseIfDown, lastTime, numberOfSimulations, threshold, maturityIndex);
 
-		// for now, we give the seed. This is basically the test for exercise 1
+		// for now, we give the seed. This is basically the test for exercise 2 of last handout
 		double priceWithGivenSeed = monteCarloWithBinomial.getPriceForGivenSeed(specifiedSeed);
 
 		System.out.println("The price of the digital option with seed equal to " + specifiedSeed + " and "
