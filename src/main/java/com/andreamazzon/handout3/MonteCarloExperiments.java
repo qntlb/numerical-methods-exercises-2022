@@ -34,7 +34,7 @@ public interface MonteCarloExperiments {
 	 * seed to simulate the underlying.
 	 *
 	 * @param numberOfBins,              the number of bins in which the interval
-	 *                                   [minBon, maxBin] where we expect most of
+	 *                                   [minBin, maxBin] where we expect most of
 	 *                                   the prices to lie is divided
 	 * @param numberOfPriceComputations, the number of times we compute the price,
 	 *                                   with possibly different seeds for the
