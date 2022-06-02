@@ -52,12 +52,30 @@ public class UsefulMethodsMatricesAndVectors {
 	 * @return the average of vector
 	 */
 	public static double getAverage(double vector[]) {
-		double sum = 0;
-		double length = vector.length;
-		for (int i = 0; i < length; i++) {
-			sum += vector[i];
+		/*
+		 * Performs an error correcting Kahan summation
+		 */
+		double sum = 0.0;
+		double error = 0.0;
+		for(double value : vector) {
+			
+			/*
+			 * You compensate the summation with respect to the previous error: you
+			 * basically add the opposite of the error
+			 */
+			double correctedValue = value - error;
+			double newSum = sum + correctedValue;
+			/*
+			 * Theoretically it should be zero, of course. However, it can be different
+			 * than zero due to rounding errors. At the next iteration, you will correct
+			 * the new term entering the sum with this error: if the error is > 0, then
+			 * the new value to be summed will be smaller than the one stored in the array,
+			 * and vice-versa.
+			 */
+			error = (newSum - sum) - correctedValue; //(sum + correctedValue - sum ) - correctedValue should be 0
+			sum = newSum;
 		}
-		return sum / length;
+		return sum/vector.length;
 	}
 
 	/**
@@ -67,10 +85,15 @@ public class UsefulMethodsMatricesAndVectors {
 	 * @return standard deviation of the vector
 	 */
 	public static double getStandardDeviation(double[] vector) {
-		double standardDeviation = 0.0;
 		double average = getAverage(vector);
+		double standardDeviation = 0.0;
+		double error = 0.0;
 		for (double element : vector) { // foreach syntax
-			standardDeviation += (element - average) * (element - average);
+			double deviation = (element - average) * (element - average);
+			double correctedDeviation = deviation - error;
+			double newRunningStandardDeviation = standardDeviation + correctedDeviation;
+			error = (newRunningStandardDeviation - standardDeviation) - correctedDeviation;
+			standardDeviation = newRunningStandardDeviation;
 		}
 		return Math.sqrt(standardDeviation / (vector.length - 1)); // Notice the -1 !
 	}
