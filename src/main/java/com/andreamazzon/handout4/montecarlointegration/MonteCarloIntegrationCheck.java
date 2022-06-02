@@ -45,10 +45,7 @@ public class MonteCarloIntegrationCheck {
 
 		System.out.println();
 
-		/*
-		 * you want to be sure that the array of the approximations has same length as
-		 * the array filled with the exact solution. Otherwise an exception is thrown
-		 */
+
 		double averageAbsoluteError = simulator.getAverageAbsoluteError();
 		System.out.println("The mean of the errors in the computation of the integral with " + numberOfDrawings
 				+ " drawings is " + formatterDouble.format(averageAbsoluteError));
@@ -80,7 +77,7 @@ public class MonteCarloIntegrationCheck {
 					exponent, numberOfIntegrations, numberOfDrawings);
 
 			averageAbsoluteError = newSimulator.getAverageAbsoluteError();
-			System.out.println("Mean of the errors in the approsimation of the integral with " + numberOfDrawings
+			System.out.println("Mean of the errors in the approximation of the integral with " + numberOfDrawings
 					+ " drawings: " + formatterDouble.format(averageAbsoluteError));
 
 			numberOfDrawings *= 10;
