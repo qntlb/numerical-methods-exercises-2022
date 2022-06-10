@@ -16,7 +16,7 @@ public class VanDerCorputSequence {
 	 */
 	public static double getVanDerCorputNumber(long index, int base) {
 
-		index = index + 1;// because we start from zero
+		index ++;// because we start from zero
 
 		double x = 0.0;
 		// first refinement
@@ -24,7 +24,7 @@ public class VanDerCorputSequence {
 
 		while (index > 0) {
 			/*
-			 * refinementFactor is what you call b^(-j) at page 147 of the script, in the
+			 * refinementFactor is what you call b^(-j) in the script, in the
 			 * formula for x_i. On the other hand, index % base is alpha_{i,j}, that is, the
 			 * number you get when you write the original index in base base.
 			 */
