@@ -29,15 +29,15 @@ public class ConfidenceIntervalsTesting {
 		 */
 		RandomVariableInterface exponential = new ExponentialRandomVariable(lambda);
 		// with Chebychev inequality
-		ChebychevMeanConfidenceInterval chebychevInterval = new ChebychevMeanConfidenceInterval(exponential,
+		ChebychevMeanConfidenceInterval chebychevIntervalCalculator = new ChebychevMeanConfidenceInterval(exponential,
 				sampleSize);
 		// and with the Central Limit Theorem
-		CLTMeanConfidenceInterval cLTInterval = new CLTMeanConfidenceInterval(exponential, sampleSize);
+		CLTMeanConfidenceInterval cLTIntervalCalculator = new CLTMeanConfidenceInterval(exponential, sampleSize);
 
 		System.out.println("The Chebyshev confidence interval boundaries at a " + confidenceLevel * 100
 				+ "% confidence level  for lambda  after " + sampleSize + " drawings are \n"
-				+ formatterValue.format(chebychevInterval.getLowerBoundConfidenceInterval(confidenceLevel)) + " and "
-				+ formatterValue.format(chebychevInterval.getUpperBoundConfidenceInterval(confidenceLevel)));
+				+ formatterValue.format(chebychevIntervalCalculator.getLowerBoundConfidenceInterval(confidenceLevel)) + " and "
+				+ formatterValue.format(chebychevIntervalCalculator.getUpperBoundConfidenceInterval(confidenceLevel)));
 
 		System.out.println("\n");
 		System.out.println("_".repeat(80) + "\n");
@@ -45,8 +45,8 @@ public class ConfidenceIntervalsTesting {
 
 		System.out.println("The CLT confidence interval boundaries at a " + confidenceLevel * 100
 				+ "% confidence level for lambda after " + sampleSize + " drawings are \n"
-				+ formatterValue.format(cLTInterval.getLowerBoundConfidenceInterval(confidenceLevel)) + " and "
-				+ formatterValue.format(cLTInterval.getUpperBoundConfidenceInterval(confidenceLevel)));
+				+ formatterValue.format(cLTIntervalCalculator.getLowerBoundConfidenceInterval(confidenceLevel)) + " and "
+				+ formatterValue.format(cLTIntervalCalculator.getUpperBoundConfidenceInterval(confidenceLevel)));
 
 		System.out.println("\n");
 		System.out.println("_".repeat(80) + "\n");
@@ -55,9 +55,9 @@ public class ConfidenceIntervalsTesting {
 
 		System.out.println(
 				"The frequence of lambda being in the Chebyshev  confidence interval" + "is " + formatterPercentage
-						.format(chebychevInterval.frequenceOfInterval(numberOfMeanComputations, confidenceLevel)));
+						.format(chebychevIntervalCalculator.frequenceOfInterval(numberOfMeanComputations, confidenceLevel)));
 		System.out.println("The frequence of lambda being in the CLT confidence interval is " + formatterPercentage
-				.format(cLTInterval.frequenceOfInterval(numberOfMeanComputations, confidenceLevel)));
+				.format(cLTIntervalCalculator.frequenceOfInterval(numberOfMeanComputations, confidenceLevel)));
 
 	}
 }

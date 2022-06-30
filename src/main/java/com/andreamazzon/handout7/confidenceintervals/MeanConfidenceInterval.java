@@ -4,11 +4,11 @@ import com.andreamazzon.handout6.randomvariables.RandomVariableInterface;
 
 /**
  * This is an abstract class providing methods for the computation of upper and
- * lower bounds of confidence intervals for the sample mean of given size a
+ * lower bounds of confidence intervals for the sample mean of given size of a
  * given random variable. The size of the sample and the random variable are
  * fields of the class. It also has a method frequenceOfInterval which returns
  * the frequency at which the effective mean of the sample falls in the
- * confidence interval for a given confidence level. It will be inherited by
+ * confidence interval for a given confidence level. This class is extended by
  * CLTMeanConfidenceInterval, computing the intervals basing on the Central
  * Limit Theorem, and by ChebychevMeanConfidenceInterval, which uses Chebychev
  * inequality.
@@ -58,6 +58,19 @@ public abstract class MeanConfidenceInterval {
 	 *         by the number of mean computations
 	 */
 	public double frequenceOfInterval(int numberOfMeanComputations, double confidenceLevel) {
-		return 0;
+		double numberOfTimesInsideTheInterval = 0;
+		// computed with CLT or Chebychev depending on the object calling
+		double lowerBound = getLowerBoundConfidenceInterval(confidenceLevel);
+		// computed with CLT or Chebychev depending on the object calling
+		double upperBound = getUpperBoundConfidenceInterval(confidenceLevel);
+
+		double sampleMean;
+		for (int i = 0; i < numberOfMeanComputations; i++) {
+			sampleMean = randomVariable.getSampleMean(sampleSize); // sample mean
+			if (sampleMean > lowerBound && sampleMean < upperBound) {
+				numberOfTimesInsideTheInterval++; // sample mean within the confidence interval
+			}
+		}
+		return numberOfTimesInsideTheInterval / numberOfMeanComputations;
 	}
 }
