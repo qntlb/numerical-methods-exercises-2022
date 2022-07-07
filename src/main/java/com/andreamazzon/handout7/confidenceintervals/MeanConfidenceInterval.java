@@ -17,6 +17,7 @@ import com.andreamazzon.handout6.randomvariables.RandomVariableInterface;
  *
  */
 public abstract class MeanConfidenceInterval {
+	
 	protected RandomVariableInterface randomVariable;// it will be inherited and initialized
 	protected int sampleSize;// it will be inherited and initialized
 

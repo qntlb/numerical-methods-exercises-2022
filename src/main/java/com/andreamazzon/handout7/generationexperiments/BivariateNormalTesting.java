@@ -157,7 +157,94 @@ public class BivariateNormalTesting {
 		System.out.println();
 	}
 
+	/**
+	 * It tests the precision and the efficiency of a selected method to generate a
+	 * pair of independent normal random variables with expectation mu and standard
+	 * deviation sigma. The method (inversion sampling, acceptance rejection) is selected by
+	 * means of a switch statement based on an enum type containing the names of the
+	 * methods. The test is to compute the Monte-Carlo approximation of P(X_1<mu,
+	 * X_2 <mu) where X_1, X_2 are independent, normal random variables with
+	 * expectation mu. For every method we compute and print the average percentage
+	 * error with respect to the exact probability 0.25 and the time needed in order
+	 * to generate the drawings of (X_1,X_2) and do the computations.
+	 *
+	 * @param normalTestSampler, object of type NormalRandomVariable. It calls the
+	 *                           generation methods
+	 * @param method,            enum type whose value is the name of one of the two
+	 *                           generation methods.
+	 * @throws Exception, if unable to compute a result given by the call to the
+	 *                    method Callable<double[]> functionToEvaluate
+	 */
+	public void testMethod(NormalRandomVariable normalTestSampler,GenerationMethods method) throws Exception {
+				
+		
+		double sumElapsedTime = 0;
+		double sumError = 0;
+		/*
+		 * expected value of the two normal random variables Z_1,Z_2 (they are
+		 * independent and have same distribution)
+		 */
+		mu = normalTestSampler.getAnalyticMean();// field of the class now!
 
+		Callable<double[]> functionToEvaluate = null;
+		/*
+		 * Here we have a switch based on the name of the four methods, see the enum
+		 * type GenerationMethods
+		 */
+		switch (method) {// name of the method
+		case INVERSIONSAMPLING:
+			System.out.println("Inversion sampling");
+			// we now say what must be returned by functionToEvaluate in this case
+			functionToEvaluate = () -> normalTestSampler.generateBivariate();
+			break;
+
+		case ACCEPTANCEREJECTION:
+			System.out.println("Acceptance rejection");
+			// we now say what must be returned by functionToEvaluate in this case
+			functionToEvaluate = () -> normalTestSampler.generateBivariateNormalAR();
+			break;
+		}
+
+		/* 
+		 * For every Monte-Carlo approximation, we compute the percentage error and the
+		 * time needed to do the computation. Then we compute the averages.
+		 */
+		for (int i = 0; i < numberOfComputations; i++) {
+			// We compute for how many generated pairs both the values are smaller than mu
+			int numberOfTimesBothSmallerThanMu = 0;
+			final long lStartTime = System.currentTimeMillis();// time when the computations starts
+			for (int j = 0; j < numberOfDrawings; j++) {
+				/*
+				 * NOTE!!! here our Callable<double[]> comes into play: generatedPair is the
+				 * array of doubles returned by function when called (we know that it returns an
+				 * array of doubles)
+				 */
+				final double[] generatedPair = functionToEvaluate.call();
+				if (generatedPair[0] < mu && generatedPair[1] < mu) {
+					numberOfTimesBothSmallerThanMu++;
+				}
+			}
+			/*
+			 * number of generated pairs for which both the values are smaller than the mean
+			 * divided by the number of simulations: you expect the result to be close to
+			 * 0.25
+			 */
+			final double frequence = numberOfTimesBothSmallerThanMu / (double) numberOfDrawings;
+			// time when the computation ends: it depends on the method.
+			final long lEndTime = System.currentTimeMillis();
+			final double elapsedTime = lEndTime - lStartTime;
+			sumElapsedTime += elapsedTime;
+			final double error = Math.abs(frequence - exactResult) / exactResult * 100;
+			sumError += error;
+		}
+		 
+		double averageElapsedTime = sumElapsedTime / numberOfComputations;
+		double averageError = sumError / numberOfComputations;
+
+		System.out.println("Average elapsed time: " + formatterValue.format(averageElapsedTime));
+		System.out.println("Average percentage error: " + formatterValue.format(averageError));
+		System.out.println();
+	}
 
 
 	public static void main(String[] args) throws Exception {
