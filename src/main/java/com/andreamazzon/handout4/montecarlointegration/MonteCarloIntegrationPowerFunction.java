@@ -31,6 +31,7 @@ public class MonteCarloIntegrationPowerFunction extends MonteCarloEvaluationsWit
 	 * @return the approximated value of the integral
 	 */
 	public double computeIntegral() {
+		// int_0^1 x^a dx = 1/n \sum_{i=1}^n (x_i)^a
 		/*
 		 * Note the implementation with DoubleStream! Here of course we don't give the
 		 * seed to MersenneTwister, since otherwise the result would be always the same

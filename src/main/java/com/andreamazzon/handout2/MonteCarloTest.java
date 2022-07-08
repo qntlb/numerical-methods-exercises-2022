@@ -21,7 +21,7 @@ public class MonteCarloTest {
 		double initialValue = 100;
 		double increaseIfUp = 1.5;
 		double decreaseIfDown = 0.5;
-		int lastTime = 7;
+		int lastTime = 40;
 		int numberOfSimulations = 10000;
 		int specifiedSeed = 1897;
 		

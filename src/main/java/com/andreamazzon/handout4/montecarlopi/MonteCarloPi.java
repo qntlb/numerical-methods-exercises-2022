@@ -30,16 +30,16 @@ public class MonteCarloPi extends MonteCarloEvaluationsWithExactResultAbstract {
 	 * @return the approximation of pi.
 	 */
 	public double piMonteCarlo() {
-		int numberOfPOintsInsideCircle = 0;
+		int numberOfPointsInsideCircle = 0;
 		for (int i = 0; i < numberOfDrawingsPerMonteCarloComputation; i++) {
 			double x = Math.random();// random double between 0 and 1
 			double y = Math.random();// random double between 0 and 1
-			if (x * x + y * y < 1) {
-				numberOfPOintsInsideCircle += 1;
+			if (x * x + y * y <= 1) {
+				numberOfPointsInsideCircle += 1;
 			}
 		}
 		// close to pi for a large number of simulations
-		return 4.0 * numberOfPOintsInsideCircle / numberOfDrawingsPerMonteCarloComputation;
+		return 4.0 * numberOfPointsInsideCircle / numberOfDrawingsPerMonteCarloComputation;
 	}
 
 	@Override

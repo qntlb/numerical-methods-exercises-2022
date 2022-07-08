@@ -72,7 +72,7 @@ public class MonteCarloIntegrationCheck {
 
 		numberOfDrawings = 10;
 
-		while (numberOfDrawings <= 10000000) {
+		while (numberOfDrawings <= 1000000) {
 			MonteCarloEvaluationsWithExactResultInterface newSimulator = new MonteCarloIntegrationPowerFunction(
 					exponent, numberOfIntegrations, numberOfDrawings);
 

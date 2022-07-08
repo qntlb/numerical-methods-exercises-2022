@@ -76,7 +76,7 @@ public class NormalRandomVariable extends RandomVariableAbstract {
 	 * This method returns the value in a point p in [0,0.5] of the approximation
 	 * of the quantile function for a STANDARD normal random variable from a formula
 	 * in Abramowitz and Stegun, see 26.2.23. There, the value x is given such that 
-	 * P(X >= x) = p, for p in [0,0.5]. In our cxase, we are computing x such that
+	 * P(X >= x) = p, for p in [0,0.5]. In our case, we are computing x such that
 	 * p = P(X <= x) = P(X >= -x), where the second equality is a well know property
 	 * of the normal distribution, and this -x is given by the Abramowitz and Stegun
 	 * formula. So we just take its opposite.
@@ -90,7 +90,7 @@ public class NormalRandomVariable extends RandomVariableAbstract {
 		final double d3 = 0.001308;
 		double t = Math.sqrt(-2.0 * Math.log(x));
 
-		return -t + (c0 + c1 * t + c2 * t * t) / (1 + d1 * t + d2 * t * t + d3 * t * t * t);
+		return - t + (c0 + c1 * t + c2 * t * t) / (1 + d1 * t + d2 * t * t + d3 * t * t * t);
 	}
 
 	/**
@@ -115,8 +115,41 @@ public class NormalRandomVariable extends RandomVariableAbstract {
 		} else {
 			quantileFunctionOfStandardNormal = abramowitzQuantileFunction(x);
 		}
-
 		return sigma * quantileFunctionOfStandardNormal + mu;
 	}
+	
+	/**
+	 * It simulates a realization of a normal random variable by the
+	 * acceptance-rejection method using an exponential distributed random variable
+	 * with intensity 1.
+	 *
+	 * @return the realization
+	 */
+	public double generateAR() { // generation
 
+		double uniformDrawing, exponentialDrawing;
+		RandomVariableInterface exponential = new ExponentialRandomVariable(1.0);
+		do {// you do it at least once: example of do..while
+			// generation of uniformDrawing and exponentialDrawing
+			uniformDrawing = Math.random();// realization of a uniformly distribute random variable in (0,1)
+			exponentialDrawing = exponential.generate();// realization of exp random variable
+		}
+		// rejected if u > f(y)/(C*g(y)), C = (2*e/pi)^1/2, see page 254 of the script
+		while (uniformDrawing > Math.exp(-(exponentialDrawing - 1) * (exponentialDrawing - 1) / 2));
+		
+		double absoluteValueStandardNormalDrawing = exponentialDrawing;
+		double signOfNormalDrawing = Math.random() < 0.5 ? 1 : -1;
+		double standardNormalDrawing = absoluteValueStandardNormalDrawing * signOfNormalDrawing;
+		return sigma * standardNormalDrawing + mu;// multiply by sigma and add mu
+	}
+
+	/**
+	 * It generates a pair of independent normal random variable by acceptance
+	 * rejection
+	 *
+	 * @return array of doubles of length 2, containing the two realizations
+	 */
+	public double[] generateBivariateNormalAR() { // generation
+		return new double[] { generateAR(), generateAR() };
+	}
 }

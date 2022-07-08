@@ -1,5 +1,7 @@
 package com.andreamazzon.handout6.randomvariables;
 
+import java.util.function.DoubleUnaryOperator;
+
 import com.andreamazzon.usefulmethodsmatricesandvectors.UsefulMethodsMatricesAndVectors;
 
 /**
@@ -14,6 +16,10 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 
 	// it stores independent realizations of the random variable
 	private double[] randomVariableRealizations;
+	
+	
+	// it stores independent realizations of a function of the random variable
+	private double[] randomVariableRealizationsFunction;
 
 	@Override
 	public double generate() {
@@ -26,7 +32,8 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 		 * getQuantileFunction(double x) will be given in the classes extending this
 		 * abstract one, since of course it depends on the specific distribution.
 		 */
-		return getQuantileFunction(Math.random());// X_i
+		double generationOfUNiformRandomVariable = Math.random();
+		return getQuantileFunction(generationOfUNiformRandomVariable);// X_i
 	}
 
 	/*
@@ -93,5 +100,70 @@ public abstract class RandomVariableAbstract implements RandomVariableInterface 
 		double standardDeviation = UsefulMethodsMatricesAndVectors.getStandardDeviation(randomVariableRealizations);
 		return standardDeviation;
 	}
+	
+	@Override
+	public double[] generateBivariate() {
+		return new double[] { generate(), generate() };
+	}
 
+	@Override
+	public double generate(DoubleUnaryOperator function) {
+		/*
+		 * Same thing as before, but here we have f(X_i) with f given function,
+		 * represented by a DoubleUnaryOperator. It is indeed evaluated in a realization
+		 * of the random variable
+		 */
+		return function.applyAsDouble(generate());// f(X_i)
+	}
+
+	/*
+	 * This method initializes randomVariableRealizationsFunction to be a
+	 * one-dimensional array of the given length n, and it fills it by calling
+	 * generate(DoubleUnaryOperator function) n times. It is used to compute the
+	 * mean and the standard deviation of a sample of independent realizations of
+	 * the random variable.
+	 */
+	private void generateValues(int n, DoubleUnaryOperator function) {
+		randomVariableRealizationsFunction = new double[n];
+		for (int i = 0; i < n; i++) {
+			randomVariableRealizationsFunction[i] = generate(function);// generation of the new realization
+		}
+	}
+	
+	
+	@Override
+	public double getSampleMean(int n, DoubleUnaryOperator function) {
+		/*
+		 * The method might be called more than once, obtaining different results. So
+		 * every time the method is called we call generateValues(n, function), that is
+		 * supposed to give different values to the one-dimensional array
+		 * randomVariableRealizationsFunction every time is called.
+		 */
+		generateValues(n, function);
+		double mean = UsefulMethodsMatricesAndVectors.getAverage(randomVariableRealizationsFunction);
+		return mean;
+	}
+
+	@Override
+	public double getSampleStdDeviation(int n, DoubleUnaryOperator function) {
+		/*
+		 * The method might be called more than once, obtaining different results. So
+		 * every time the method is called we call generateValues(n), that is supposed
+		 * to give different values to the one-dimensional array
+		 * randomVariableRealizationsFunction every time is called.
+		 */
+		generateValues(n, function);
+		double standardDeviation = UsefulMethodsMatricesAndVectors
+				.getStandardDeviation(randomVariableRealizationsFunction);
+		return standardDeviation;
+	}
+	
+	@Override
+	public double getSampleMeanWithWeightedMonteCarlo(int n, DoubleUnaryOperator function,
+			RandomVariableInterface otherRandomVariable) {
+		DoubleUnaryOperator weight = x -> (getDensityFunction(x)// the one of the "original" random variable
+				/ otherRandomVariable.getDensityFunction(x));
+		DoubleUnaryOperator whatToSample = (x -> function.applyAsDouble(x) * weight.applyAsDouble(x));
+		return otherRandomVariable.getSampleMean(n, whatToSample);
+	}
 }

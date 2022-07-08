@@ -52,7 +52,20 @@ public class DigitalOption implements EuropeanTypeOptionMonteCarlo {
 		return payoff;
 	}
 
+	/**
+	 *
+	 * @param underlyingProcess, an object of type StochasticProcessSimulator,
+	 *                           representing the realizations of the underlying
+	 *                           process
+	 * @return the realizations of the payoff, as a DoubleStream
+	 */
+	public DoubleStream getPayoffWithDoubleStream(StochasticProcessSimulatorInterface underlyingProcess) {
 
+		DoubleStream realizations = Arrays.stream(underlyingProcess.getRealizationsAtGivenTime(maturity));
+
+		return realizations.map(x -> x > strike ? 1 : 0);
+	}
+	
 	/**
 	 * It returns the Monte-Carlo price of the digital option for the underlying
 	 * represented by stochasticProcessUser. This is done by taking the average of

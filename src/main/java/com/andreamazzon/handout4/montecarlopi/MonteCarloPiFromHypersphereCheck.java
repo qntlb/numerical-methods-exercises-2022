@@ -21,7 +21,7 @@ public class MonteCarloPiFromHypersphereCheck {
 		int numberOfDrawings = 100000;
 
 		MonteCarloEvaluationsWithExactResultInterface simulator = new MonteCarloPiFromHypersphere(numberOfIntegrations,
-				numberOfDrawings,4);
+				numberOfDrawings,7);
 
 		// mean and variance of the realizations
 		double averageComputations = simulator.getAverageComputations();

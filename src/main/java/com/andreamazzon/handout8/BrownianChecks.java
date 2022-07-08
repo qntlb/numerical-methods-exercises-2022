@@ -42,18 +42,17 @@ public class BrownianChecks {
 
 		for (int timeIndex = 0; timeIndex < numberOfTimeSteps + 1; timeIndex += 10) {
 
+			RandomVariableFromArray currentRealizations = brownianMotion.getProcessAtGivenTimeIndex(timeIndex);
 			/*
 			 * Here you see that we exploit a method of BrownianMotion and then one of
 			 * RandomVariableFromArray.
 			 */
-			averagesOfTheBrownianMotion = brownianMotion.getProcessAtGivenTimeIndex(timeIndex).getAverage();
+			averagesOfTheBrownianMotion = currentRealizations.getAverage();
 
-			standardDeviationsOfTheBrownianMotion = brownianMotion.getProcessAtGivenTimeIndex(timeIndex)
-					.getStandardDeviation();
+			standardDeviationsOfTheBrownianMotion = currentRealizations.getStandardDeviation();
 
 			// we want to print the variance, since we know it should be close to t_i
-			variancesOfTheBrownianMotion = standardDeviationsOfTheBrownianMotion
-					* standardDeviationsOfTheBrownianMotion;
+			variancesOfTheBrownianMotion = standardDeviationsOfTheBrownianMotion * standardDeviationsOfTheBrownianMotion;
 
 			// we know t_i = timeStepLength * i.
 			System.out.println(

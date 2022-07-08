@@ -215,12 +215,14 @@ public class UsefulMethodsMatricesAndVectors {
 	 * @return sum of the vector with the double number
 	 */
 	public static double[] sumVectorAndDouble(double[] vector, double value) {
-		int firstLength = vector.length;
+		int length = vector.length;
 
-		double[] sum = new double[firstLength];
-		for (int i = 0; i < firstLength; i++) {
+		double[] sum = new double[length];
+		
+		for (int i = 0; i < length; i++) {
 			sum[i] = vector[i] + value;
 		}
+		
 		return sum;
 	}
 

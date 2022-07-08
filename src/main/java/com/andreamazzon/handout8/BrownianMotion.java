@@ -26,6 +26,7 @@ public class BrownianMotion {
 	private final double finalTime;
 
 	private final int numberOfPaths;
+	
 	/*
 	 * The Brownian motion starts at zero. Anyway, it's better to create a field
 	 * initialValue and set it to be zero because this helps the readability of the
@@ -84,20 +85,23 @@ public class BrownianMotion {
 
 		final double[][] brownianPathsArray = new double[numberOfTimes][numberOfPaths];
 
-		// we need it in order to simulate the increments
-		final NormalRandomVariable normalRv = new NormalRandomVariable(0.0, 1.0);
-
 		final double incrementsVolatility = Math.sqrt(timeStepLength);
+
+		// we need it in order to simulate the increments
+		final NormalRandomVariable normalRv = new NormalRandomVariable(0.0, incrementsVolatility);
+
 
 		// to be filled every time, for every simulated path
 		double brownianIncrement;
 
+		
 		// loop:at every iteration we generate uncorrelated Brownian increments
 		for (int pathIndex = 0; pathIndex < numberOfPaths; pathIndex++) {
 			// first we fill the entries of the matrix of doubles
 			brownianPathsArray[0][pathIndex] = initialValue;
 			for (int timeIndex = 0; timeIndex < numberOfTimeSteps; timeIndex++) {
-				brownianIncrement = normalRv.generate() * incrementsVolatility;
+				brownianIncrement = normalRv.generate();
+				//brownianIncrement = normalRv.generate() * incrementsVolatility;
 				// we sum the increment
 				brownianPathsArray[timeIndex + 1][pathIndex] = brownianPathsArray[timeIndex][pathIndex]
 						+ brownianIncrement;
@@ -270,7 +274,7 @@ public class BrownianMotion {
 		 * time..
 		 */
 		DoubleUnaryOperator trajectoryFunction = (time) -> {
-			return getSpecificRealizationAtGivenTime(pathIndex, time );
+			return getSpecificRealizationAtGivenTime(pathIndex, time);
 		};
 
 		Plot2D plot = new Plot2D(0 /* min value on the x-axis */, finalTime, /* max value */

@@ -11,7 +11,7 @@ public class RandomVariableTesting {
 
 	public static void main(String[] args) {
 		double lambda = 0.2;
-		int numberOfSimulations = 100000;
+		int numberOfSimulations = 1000000;
 		ExponentialRandomVariable exponentialSampler = new ExponentialRandomVariable(lambda);
 
 		System.out.println("Exponential random variable: comparing Empirical mean and std dev to mu and sigma");

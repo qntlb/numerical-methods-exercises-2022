@@ -245,8 +245,8 @@ public class RandomVariableFromArray {
 	 */
 	public RandomVariableFromArray div(double value) {
 
-		double[] realizationsSum = UsefulMethodsMatricesAndVectors.prodVectorWithDouble(realizations, 1 / value);
-		return new RandomVariableFromArray(realizationsSum);
+		double[] realizationsRatio = UsefulMethodsMatricesAndVectors.prodVectorWithDouble(realizations, 1 / value);
+		return new RandomVariableFromArray(realizationsRatio);
 	}
 
 }

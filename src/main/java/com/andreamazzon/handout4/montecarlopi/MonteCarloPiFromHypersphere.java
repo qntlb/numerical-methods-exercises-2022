@@ -1,7 +1,11 @@
 package com.andreamazzon.handout4.montecarlopi;
 
+import java.util.stream.DoubleStream;
+
 import com.andreamazzon.handout4.montecarloevaluations.MonteCarloEvaluationsWithExactResultAbstract;
 import com.andreamazzon.handout4.montecarloevaluations.MonteCarloEvaluationsWithExactResultInterface;
+
+import net.finmath.randomnumbers.MersenneTwister;
 
 /**
  * This class deals with the approximation of Pi by Monte-Carlo. In particular,
@@ -87,7 +91,7 @@ public class MonteCarloPiFromHypersphere extends MonteCarloEvaluationsWithExactR
 				sumOfSquares += newRandom * newRandom;
 			}
 
-			// or using DoubleStream:
+			// or using DoubleStream (but not convenient..) :
 //			DoubleStream vector = DoubleStream.generate(new MersenneTwister()).limit(dimension);
 //			DoubleStream squares = vector.map(x -> Math.pow(2 * (x - 0.5), 2));
 //			double sumOfSquares = squares.sum();

@@ -23,8 +23,8 @@ public class HaltonSequence {
 		
 		int baseLength = base.length;
 		double[] x = new double[baseLength];
-		for (int dimension = 0; dimension < baseLength; dimension++) {
-			x[dimension] = VanDerCorputSequence.getVanDerCorputNumber(index, base[dimension]);
+		for (int dimensionIndex = 0; dimensionIndex < baseLength; dimensionIndex++) {
+			x[dimensionIndex] = VanDerCorputSequence.getVanDerCorputNumber(index, base[dimensionIndex]);
 		}
 		return x;
 	}

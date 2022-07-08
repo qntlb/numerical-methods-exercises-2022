@@ -38,7 +38,7 @@ public abstract class MonteCarloEvaluationsAbstract implements MonteCarloEvaluat
 	 */
 	protected double[] monteCarloComputations;
 
-	// it initializes and fill the vector monteCarloComputations
+	// it initializes and fills the vector monteCarloComputations
 	protected abstract void generateMonteCarloComputations();
 
 	// it will be called by the sub-classes

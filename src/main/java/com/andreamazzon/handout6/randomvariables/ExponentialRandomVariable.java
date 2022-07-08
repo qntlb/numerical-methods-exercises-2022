@@ -27,11 +27,11 @@ public class ExponentialRandomVariable extends RandomVariableAbstract {
 		return lambda;
 	}
 
-	// other possibility: the intensity can be changed
-//	public void setLambda() { // getter, if the user wants to get the intensity
+//	// other possibility: the intensity can be changed
+//	public void setLambda(double lambda) { // getter, if the user wants to get the intensity
 //		this.lambda = lambda;
 //	}
-//
+
 	// The following methods are specific of the exponential random variable
 
 	@Override
@@ -42,7 +42,6 @@ public class ExponentialRandomVariable extends RandomVariableAbstract {
 	@Override
 	public double getAnalyticStdDeviation() {
 		return 1.0 / lambda;
-
 	}
 
 	@Override

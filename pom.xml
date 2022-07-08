@@ -12,6 +12,16 @@
 	</properties>
   
   <dependencies>
+  		<dependency>
+			<groupId>net.finmath</groupId>
+			<artifactId>finmath-lib</artifactId>
+			<version>6.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>net.finmath</groupId>
+			<artifactId>finmath-lib-plot-extensions</artifactId>
+			<version>0.4.6-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>com.andreamazzon</groupId>
 			<artifactId>javacourse-2022</artifactId>

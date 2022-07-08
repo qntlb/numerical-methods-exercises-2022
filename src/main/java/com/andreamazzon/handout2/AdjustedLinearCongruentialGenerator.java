@@ -57,11 +57,11 @@ public class AdjustedLinearCongruentialGenerator {
 			long observedValue = a * randomNumbers[indexOfInteger] + c;
 			if (observedValue < 0 /* overflow! */) {
 				// the size of the overflow we got
-				long valueOverflow = observedValue - Long.MIN_VALUE + 1;
+				long valueOverflowMinusOne = observedValue - Long.MIN_VALUE;
 
-				long remainderOverflow = valueOverflow % modulus;
+				long remainderOverflowMinusOne = valueOverflowMinusOne % modulus;
 				// this is the number to which we apply %
-				observedValue = remainderOverflow + remainderOfMaxValue;
+				observedValue = remainderOverflowMinusOne + remainderOfMaxValue + 1;
 			}
 			long congruence = observedValue % modulus;
 //			if (congruence < 0) {
