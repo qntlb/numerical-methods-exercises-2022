@@ -13,7 +13,12 @@ import net.finmath.functions.AnalyticFormulas;
 import net.finmath.montecarlo.BrownianMotion;
 import net.finmath.montecarlo.BrownianMotionFromMersenneRandomNumbers;
 import net.finmath.montecarlo.assetderivativevaluation.AssetModelMonteCarloSimulationModel;
+import net.finmath.montecarlo.assetderivativevaluation.MonteCarloAssetModel;
 import net.finmath.montecarlo.assetderivativevaluation.MonteCarloMultiAssetBlackScholesModel;
+import net.finmath.montecarlo.assetderivativevaluation.models.BachelierModel;
+import net.finmath.montecarlo.assetderivativevaluation.products.AbstractAssetMonteCarloProduct;
+import net.finmath.montecarlo.assetderivativevaluation.products.EuropeanOption;
+import net.finmath.montecarlo.model.ProcessModel;
 import net.finmath.time.TimeDiscretization;
 import net.finmath.time.TimeDiscretizationFromArray;
 
@@ -92,12 +97,12 @@ public class ExchangeOptionTests {
 	 */
 	@Test
 	public void testCorrelation() throws CalculationException {
-		// W_1 = B_1
-		// W_2 = rho B_1 + sqrt(1-rho^2)B^2
-		// here you simulate B^1, B^2 independent
-		// Two-dimensional Brownian motion
-		final BrownianMotion brownian = new BrownianMotionFromMersenneRandomNumbers(times, 2, numberOfSimulations,
-				seed);// (B^1,B^2)
+		/*
+		 * We simulate a two-dimensional Brownian motion (B=(B^1,B^2) such that
+		 * W_1 = B_1
+		 * W_2 = rho B_1 + sqrt(1-rho^2)B^2
+		 */
+		final BrownianMotion brownian = new BrownianMotionFromMersenneRandomNumbers(times, 2, numberOfSimulations, seed);
 
 		System.out.println("Correlation      Price");
 
@@ -125,12 +130,12 @@ public class ExchangeOptionTests {
 	@Test
 	void testExchangeForGivenSeed() {
 		try {
-			// W_1 = B_1
-			// W_2 = rho B_1 + sqrt(1-rho^2)B^2
-			// here you simulate B^1, B^2 independent
-			// Two-dimensional Brownian motion
-			final BrownianMotion brownian = new BrownianMotionFromMersenneRandomNumbers(times, 2, numberOfSimulations,
-					seed);// (B^1,B^2)
+			/*
+			 * We simulate a two-dimensional Brownian motion (B=(B^1,B^2) such that
+			 * W_1 = B_1
+			 * W_2 = rho B_1 + sqrt(1-rho^2)B^2
+			 */
+			final BrownianMotion brownian = new BrownianMotionFromMersenneRandomNumbers(times, 2, numberOfSimulations, seed);
 			/*
 			 * finmath class, we use it to get the simulation of a two dimensional
 			 * Black-Scholes model: two geometric Brownian motions, with possibly dependent
@@ -210,12 +215,12 @@ public class ExchangeOptionTests {
 				randomSeed = randomGenerator.nextInt();
 
 				// We could also do the following
-				//				final BrownianMotion newBrownian = new BrownianMotionFromMersenneRandomNumbers(times, 2, numberOfSimulations,
-				//						randomSeed/* the seed changes at every iterations */);
+				//final BrownianMotion newBrownian = new BrownianMotionFromMersenneRandomNumbers(times, 2, numberOfSimulations,
+				//		randomSeed/* the seed changes at every iterations */);
 				//
-				//				// the seed is "hidden" in the BrownianMotion object
-				//				firstSimulationTwoDimGeometricBrownian = new MonteCarloMultiAssetBlackScholesModel(
-				//						newBrownian, initialPrices, riskFreeRate, volatilities, correlationMatrix);
+				// the seed is "hidden" in the BrownianMotion object
+				//firstSimulationTwoDimGeometricBrownian = new MonteCarloMultiAssetBlackScholesModel(
+				//		newBrownian, initialPrices, riskFreeRate, volatilities, correlationMatrix);
 				/*
 				 * get the price of your exchange option as above, now constructing your
 				 * MonteCarloMultiAssetBlackScholesModel with randomSeed.
@@ -243,4 +248,5 @@ public class ExchangeOptionTests {
 			fail("Exception!");
 		}
 	}
+	
 }
